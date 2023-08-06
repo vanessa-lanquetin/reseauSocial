@@ -1,0 +1,7 @@
+.env
+node_modules
+sandbox
+sql
+*.private.md
+.idea
+.vscode

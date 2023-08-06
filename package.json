@@ -1,24 +1,19 @@
 {
-  "name": "reseau-social",
-  "version": "1.0.5",
+  "name": "social-network",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "start": "nodemon server"
+    "postinstall": "cd server && npm i && cd .. && node install-dev-environment.js",
+    "serve": "cross-env HTTP_PORT=6873 stack-monitor ./stack/src/stack.js",
+    "encrypt": "node stack/bin/encrypt",
+    "decrypt": "node stack/bin/decrypt",
+    "test": "",
+    "db": "node src/db"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  },
   "dependencies": {
-    "@types/validator": "^13.7.17",
-    "bcrypt": "^5.1.0",
-    "body-parser": "^1.20.2",
-    "cookie-parser": "^1.4.6",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.1",
-    "mongoose": "^7.3.1",
-    "nodemon": "^2.0.22",
-    "validator": "^13.9.0"
+    "@iryu54/stack-monitor": "^1.11.18",
+    "dotenv": "^16.3.1"
   }
 }

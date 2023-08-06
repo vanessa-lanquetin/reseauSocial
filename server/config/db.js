@@ -2,6 +2,6 @@
   const mongoose = require("mongoose");
 
   mongoose
-    .connect("mongodb+srv://" + process.env.DB_USER_PASS + "@cluster0.iwy0j8f.mongodb.net/test")
+    .connect(process.env.MONGODB_URL || '')
     .then(() => console.log("Connected to MongoDB"))
     .catch((err) => console.error("Not Connected to MongoDB", err));
