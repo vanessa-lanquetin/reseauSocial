@@ -24,9 +24,11 @@ module.exports.checkUser = (req, res, next) => {
 };
 
 module.exports.requireAuth = (req, res,next) => {
+  console.log(req.cookies.jwt)
   const token = req.cookies.jwt;
   if (token) {
     jwt.verify(token, process.env.TOKEN || '', async (err, decodedToken) => {
+      req.jwt = decodedToken
       if (err) {
         console.log(err);
       } else {
