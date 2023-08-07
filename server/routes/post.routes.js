@@ -12,7 +12,7 @@ router.patch("/unlike-post/:id", requireAuth, postController.unlikePost);
 //comments
 router.patch('/comment-post/:id', requireAuth, postController.commentPost);
 router.patch("/edit-comment-post/:id", requireAuth, postController.editCommentPost);
-/* router.delete("/delete-comment-post/:id", requireAuth, postController.deleteCommentPost); */
+router.patch("/delete-comment-post/:id", requireAuth, postController.deleteCommentPost);
 
 module.exports=router;
 

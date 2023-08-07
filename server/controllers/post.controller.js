@@ -164,7 +164,21 @@ module.exports.editCommentPost = async (req, res) => {
   }
 };
 
-module.exports.deleteCommentPost = (req, res) => {
+module.exports.deleteCommentPost = async (req, res) => {
   if (!ObjectID.isValid(req.params.id))
     return res.status(400).send("ID unknown " + req.params.id);
+  try {
+    const postId = req.params.id;
+    const commentId = req.body.commentId;
+    const post = await PostModel.findById(postId);
+    if (!post) {
+      return res.status(404).send("Post not found");
+    } 
+    post.comments.pull(commentId);
+    const updatedPost = await post.save();
+    return res.json(updatedPost);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).send(err);
+  }
 };
