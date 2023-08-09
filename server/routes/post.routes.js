@@ -1,9 +1,14 @@
 const router=require('express').Router();
 const postController=require('../controllers/post.controller');
 const { requireAuth } = require('../middleware/auth.middleware');
+const multer = require("multer");
+const pathfs = require("path");
+const upload = multer({
+  dest: pathfs.resolve(__dirname, "..", "temp"),
+});
 
 router.get('/', postController.readPost);
-router.post("/", requireAuth, postController.createPost);
+router.post("/", requireAuth, upload.single("file"), postController.createPost);
 router.put("/:id", requireAuth, postController.updatePost);
 router.delete("/:id", requireAuth, postController.deletePost);
 router.patch('/like-post/:id', requireAuth, postController.likePost);

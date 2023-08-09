@@ -30,7 +30,8 @@ const stack = async (stackMonitor) => {
           env: {
             PORT: '5000',
             MONGODB_URL: localEnvs.MONGODB_URL,
-            TOKEN: localEnvs.TOKEN
+            TOKEN: localEnvs.TOKEN,
+            CLIENT_URL:'http//localhost:3000'
           },
         },
       },

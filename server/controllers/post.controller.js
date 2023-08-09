@@ -1,6 +1,13 @@
 const PostModel = require("../models/post.model");
 const UserModel = require("../models/user.model");
+const { uploadErrors } = require("../utils/errors.utils");
 const ObjectID = require("mongoose").Types.ObjectId;
+const fs = require("fs");
+const { move, existsSync, mkdirp, remove } = require("fs-extra");
+const pathfs = require("path");
+const { promisify } = require("util");
+const { log } = require("console");
+const pipeline = promisify(require("stream").pipeline);
 
 module.exports.readPost = async (req, res) => {
   try {
@@ -12,18 +19,57 @@ module.exports.readPost = async (req, res) => {
 };
 
 module.exports.createPost = async (req, res) => {
-  const newPost = new PostModel({
-    posterId: req.jwt.id,
-    message: req.body.message,
-    video: req.body.video,
-    likers: [],
-    comments: [],
-  });
-  try {
-    const post = await newPost.save();
-    return res.status(201).json(post);
-  } catch (err) {
-    return res.status(400).send(err);
+  let fileName;
+
+  if (req.file !== null) {
+    try {
+      if (
+        req.file.mimetype !== "image/jpg" &&
+        req.file.mimetype !== "image/png" &&
+        req.file.mimetype !== "image/jpeg"
+      )
+        throw new Error("invalid file");
+
+      if (req.file.size > 500000) throw new Error("max size");
+    } catch (err) {
+      const errors = uploadErrors(err);
+      return res.status(400).json({ errors });
+    }
+
+    const fileName = req.body.posterId + Date.now() + ".jpg";
+
+    try {
+      const uploadPath = pathfs.resolve(
+        __dirname,
+        "..",
+        "client",
+        "public",
+        "uploads",
+        "posts"
+      );
+      const targetPath = pathfs.resolve(uploadPath, fileName);
+      if (!existsSync(uploadPath)) await mkdirp(uploadPath);
+      await move(req.file.path, targetPath, { overwrite: true });
+      const newPost = new PostModel({
+        posterId: req.jwt.id,
+        message: req.body.message,
+        picture: req.file !== null ? "./uploads/posts/" + fileName : "",
+        video: req.body.video,
+        likers: [],
+        comments: [],
+      });
+      try {
+        const post = await newPost.save();
+        return res.status(201).json(post);
+      } catch (err) {
+        return res.status(400).send(err);
+      }
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(500)
+        .json({ error: "An error occurred while uploading the file" });
+    }
   }
 };
 
@@ -151,15 +197,18 @@ module.exports.editCommentPost = async (req, res) => {
 
   try {
     const docs = await PostModel.findById(req.params.id);
-    if(!docs) return res.status(400).send('Post not exists')
-    const theComment = docs.comments.find((comment) => comment._id?.equals(req.body.commentId));
+    if (!docs) return res.status(400).send("Post not exists");
+    const theComment = docs.comments.find((comment) =>
+      comment._id?.equals(req.body.commentId)
+    );
     if (!theComment) return res.status(404).send("comment not found");
-    if (theComment.commenterId !== req.jwt.id) return res.status(403).send('Not Authorized')
+    if (theComment.commenterId !== req.jwt.id)
+      return res.status(403).send("Not Authorized");
     theComment.text = req.body.text;
     await docs.save();
-    return res.json(docs)
+    return res.json(docs);
   } catch (err) {
-    console.error(err)
+    console.error(err);
     return res.status(400).send(err);
   }
 };
@@ -173,7 +222,7 @@ module.exports.deleteCommentPost = async (req, res) => {
     const post = await PostModel.findById(postId);
     if (!post) {
       return res.status(404).send("Post not found");
-    } 
+    }
     post.comments.pull(commentId);
     const updatedPost = await post.save();
     return res.json(updatedPost);
