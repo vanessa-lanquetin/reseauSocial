@@ -7,7 +7,6 @@ module.exports.getAllUsers = async (req, res) => {
 };
 
 module.exports.userInfo = async (req, res) => {
-  console.log(req.params);
   if (!ObjectID.isValid(req.params.id))
     return res.status(400).send("Id Unknow: " + req.params.id);
 

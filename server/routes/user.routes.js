@@ -1,9 +1,13 @@
-const router= require('express').Router();
+const router = require("express").Router();
+const pathfs = require("path");
 const authController = require('../controllers/auth.controller');
 const userController = require('../controllers/user.controller');
 const uploadController = require('../controllers/upload.controller');
-const multer= require('multer');
-const upload= multer();
+const { requireAuth } = require("../middleware/auth.middleware");
+const multer = require("multer");
+const upload= multer({
+  dest: pathfs.resolve(__dirname, '..', 'temp')
+});
 
 //Authentification
 router.post("/register", authController.signUp);
@@ -19,7 +23,12 @@ router.patch('/follow/:id', userController.follow);
 router.patch("/unfollow/:id", userController.unfollow);
 
 //upload
-router.post('/upload',upload.single('file') , uploadController.uploadProfil)
+router.post(
+  "/upload",
+  requireAuth,
+  upload.single("file"),
+  uploadController.uploadProfil
+);
 
 
 module.exports=router;
