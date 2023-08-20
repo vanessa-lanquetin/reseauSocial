@@ -7,8 +7,8 @@ const localEnvs = require('./env/local.override')
 const stack = async (stackMonitor) => {
   return {
     watchFiles: [
-      require.resolve('./env/local'),
-      pathfs.resolve(__dirname, 'env', 'local.override.js'),
+      require.resolve("./env/local"),
+      pathfs.resolve(__dirname, "env", "local.override.js"),
     ],
     logParsers: [
       stackMonitor.parsers.links,
@@ -17,21 +17,36 @@ const stack = async (stackMonitor) => {
     ],
     services: [
       {
-        label: 'social-network-server',
+        label: "social-network-server",
         git: {
-          home: 'https://github.com/vanessa-lanquetin/reseauSocial',
-          remote: 'git@github.com:vanessa-lanquetin/reseauSocial.git',
+          home: "https://github.com/vanessa-lanquetin/reseauSocial",
+          remote: "git@github.com:vanessa-lanquetin/reseauSocial.git",
         },
         rootPath,
-        spawnCmd: 'npm',
-        spawnArgs: ['run', 'serve'],
+        spawnCmd: "npm",
+        spawnArgs: ["run", "serve"],
         spawnOptions: {
-          cwd: pathfs.resolve(rootPath, 'server'),
+          cwd: pathfs.resolve(rootPath, "server"),
           env: {
-            PORT: '5000',
+            PORT: "5000",
             MONGODB_URL: localEnvs.MONGODB_URL,
             TOKEN: localEnvs.TOKEN,
-            CLIENT_URL:'http//localhost:3000'
+            CLIENT_URL: "http//localhost:3000",
+          },
+        },
+      },
+      {
+        label: "social-network-front",
+        git: {
+          home: "https://github.com/vanessa-lanquetin/reseauSocial",
+          remote: "git@github.com:vanessa-lanquetin/reseauSocial.git",
+        },
+        rootPath,
+        spawnCmd: "npm",
+        spawnArgs: ["run", "start"],
+        spawnOptions: {
+          cwd: pathfs.resolve(rootPath, "client"),
+          env: {
           },
         },
       },
