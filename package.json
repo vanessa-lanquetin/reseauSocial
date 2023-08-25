@@ -2,7 +2,7 @@
   "name": "social-network",
   "description": "",
   "scripts": {
-    "postinstall": "cd server && npm i && cd .. && node install-dev-environment.js",
+    "postinstall": "cd server && npm i && cd .. && cd client && npm i && cd .. && node install-dev-environment.js",
     "serve": "cross-env HTTP_PORT=6873 stack-monitor ./stack/src/stack.js",
     "encrypt": "node stack/bin/encrypt",
     "decrypt": "node stack/bin/decrypt",
@@ -15,12 +15,7 @@
   },
   "dependencies": {
     "@iryu54/stack-monitor": "^1.11.18",
-    "dotenv": "^16.3.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router": "^6.15.0",
-    "react-router-dom": "^6.15.0",
-    "sass": "^1.66.1"
+    "dotenv": "^16.3.1"
   },
   "version": "0.0.6"
 }
