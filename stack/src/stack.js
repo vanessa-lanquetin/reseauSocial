@@ -47,6 +47,7 @@ const stack = async (stackMonitor) => {
         spawnOptions: {
           cwd: pathfs.resolve(rootPath, "client"),
           env: {
+            REACT_APP_API_URL: "http//localhost:5000"
           },
         },
       },
