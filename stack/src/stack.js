@@ -31,7 +31,7 @@ const stack = async (stackMonitor) => {
             PORT: "5000",
             MONGODB_URL: localEnvs.MONGODB_URL,
             TOKEN: localEnvs.TOKEN,
-            CLIENT_URL: "http//localhost:3000",
+            CLIENT_URL: "http://localhost:3000",
           },
         },
       },
@@ -47,7 +47,7 @@ const stack = async (stackMonitor) => {
         spawnOptions: {
           cwd: pathfs.resolve(rootPath, "client"),
           env: {
-            REACT_APP_API_URL: "http//localhost:5000"
+            REACT_APP_API_URL: "http://localhost:5000"
           },
         },
       },

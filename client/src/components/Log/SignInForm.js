@@ -11,10 +11,9 @@ const SignInForm = () => {
     const passwordError = document.querySelector(".password.error");
     console.log("API URL:", process.env.REACT_APP_API_URL);
 
-
     axios({
       method: "post",
-      url: `${process.env.REACT_APP_API_URL}api/user/login`,
+      url: `${process.env.REACT_APP_API_URL}/api/user/login`,
       withCredentials: true,
       data: {
         email,
@@ -24,11 +23,11 @@ const SignInForm = () => {
       .then((res) => {
         console.log(res);
         if (res.data.errors) {
-          if(emailError)
-          emailError.innerHTML = res.data.errors.email;
-          if(passwordError)
-          passwordError.innerHTML = res.data.errors.password;
+          console.log("Email ou  mot de passe incorrect");
+          if (emailError) emailError.innerHTML = res.data.errors.email;
+          if (passwordError) passwordError.innerHTML = res.data.errors.password;
         } else {
+          console.log("Vous êtes connecté");
           window.location.href = "/";
         }
       })
