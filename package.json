@@ -17,5 +17,5 @@
     "@iryu54/stack-monitor": "^1.11.18",
     "dotenv": "^16.3.1"
   },
-  "version": "0.0.7"
+  "version": "0.0.8"
 }
