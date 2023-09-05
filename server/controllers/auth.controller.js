@@ -29,7 +29,7 @@ module.exports.signIn = async (req, res) => {
     // @ts-ignore
     const user = await UserModel.login(email, password);
     const token = createToken(user._id);
-    res.cookie("jwt", token, { htppOnly: true, maxAge });
+    res.cookie("jwt", token, { httpOnly: true, maxAge });
     res.status(200).json({ user: user._id });
   } catch (err) {
     const errors = signInErrors(err);

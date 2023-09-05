@@ -1,12 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Routes from "./components/Routes";
+import { UidContext } from "./components/AppContext";
+import axios from "axios";
 
-function App() {
+const App = () => {
+  const [uid, setUid] = useState(null);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const response = await axios({
+          method: "get",
+          url: `${process.env.REACT_APP_API_URL}/jwtid`,
+          withCredentials: true,
+        });
+
+        
+        console.log(response); // Affichez également la réponse complète pour le débogage
+
+        setUid(response.data);
+      } catch (error) {
+        console.error("Erreur lors de la requête Axios :", error);
+        console.log("No token");
+      }
+    };
+
+    fetchToken();
+  }, [uid]);
+
   return (
-    <div className="App">
+    <UidContext.Provider value={uid}>
       <Routes />
-    </div>
+    </UidContext.Provider>
   );
-}
+};
 
 export default App;
