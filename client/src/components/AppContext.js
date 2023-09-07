@@ -1,3 +1,4 @@
 import { createContext } from "react";
 
 export const UidContext = createContext(null);
+export default UidContext;
