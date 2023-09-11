@@ -15,8 +15,7 @@ const Logout = () => {
         withCredentials: true,
       });
       removeCookie("jwt");
-      // Redirigez l'utilisateur vers la page de déconnexion réussie ou toute autre page appropriée.
-      window.location.href = "/profil"; // Vous pouvez personnaliser l'URL ici.
+      window.location.href = "/profil";
     } catch (err) {
       console.error(err);
     }
