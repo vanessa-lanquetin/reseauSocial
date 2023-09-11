@@ -1,8 +1,12 @@
-import React from "react";
+import React, {useContext} from "react";
 import axios from "axios";
 import cookie from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import UidContext from "../UidContext";
 
 const Logout = () => {
+  const navigate = useNavigate();
+  const {uid, setUid} = useContext(UidContext)
   const removeCookie = (key) => {
     if (typeof window !== "undefined") {
       cookie.remove(key);
@@ -15,7 +19,8 @@ const Logout = () => {
         withCredentials: true,
       });
       removeCookie("jwt");
-      window.location.href = "/profil";
+      setUid(null)
+      navigate("/profil");
     } catch (err) {
       console.error(err);
     }

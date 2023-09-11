@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import Log from '../components/Log';
-import UidContext from '../components/AppContext'
+import UidContext from '../components/UidContext'
 
 const Profil = () => {
-  const uid = useContext(UidContext);
+  const {uid} = useContext(UidContext);
   return (
     <div className='profil-page'>
       {uid ? (

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Routes from "./components/Routes";
-import { UidContext } from "./components/AppContext";
+import { UidContext } from "./components/UidContext";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const [uid, setUid] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -14,14 +16,13 @@ const App = () => {
           url: `${process.env.REACT_APP_API_URL}/jwtid`,
           withCredentials: true,
         });
-
-        
-        console.log(response); // Affichez également la réponse complète pour le débogage
-
         setUid(response.data);
       } catch (error) {
-        console.error("Erreur lors de la requête Axios :", error);
-        console.log("No token");
+        if(error?.response?.status === 401) {
+          navigate("/profil");
+        } else {
+          console.error(error)
+        }
       }
     };
 
@@ -29,9 +30,9 @@ const App = () => {
   }, [uid]);
 
   return (
-    <UidContext.Provider value={uid}>
-      <Routes />
-    </UidContext.Provider>
+      <UidContext.Provider value={{setUid, uid}}>
+        <Routes />
+      </UidContext.Provider>
   );
 };
 

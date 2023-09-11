@@ -7,16 +7,14 @@ import Navbar from "../Navbar";
 
 export default function MyRouter() {
   return (
-    <div>
-      <Router>
-        <Navbar></Navbar>
-        <Routes>
-          <Route path="/" element={<Home/>}></Route>
-          <Route path="/profil" element={<Profil />}></Route>
-          <Route path="/trending" element={<Trending />}></Route>
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Router>
-    </div>
+    <>
+      <Navbar></Navbar>
+      <Routes>
+        <Route path="/" element={<Home/>}></Route>
+        <Route path="/profil" element={<Profil />}></Route>
+        <Route path="/trending" element={<Trending />}></Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   );
 };
