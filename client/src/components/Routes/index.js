@@ -3,11 +3,13 @@ import { Route, BrowserRouter as Router, Routes, Navigate } from "react-router-d
 import Home from '../../pages/Home';
 import Profil from '../../pages/Profil';
 import Trending from '../../pages/Trending';
+import Navbar from "../Navbar";
 
 export default function MyRouter() {
   return (
     <div>
       <Router>
+        <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<Home/>}></Route>
           <Route path="/profil" element={<Profil />}></Route>

@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "@iryu54/stack-monitor": "^1.11.18",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "js-cookie": "^3.0.5"
   },
   "version": "0.0.10"
 }
