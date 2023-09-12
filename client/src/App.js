@@ -3,10 +3,13 @@ import Routes from "./components/Routes";
 import { UidContext } from "./components/UidContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getUser } from "./actions/user.actions";
 
 const App = () => {
   const [uid, setUid] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -17,6 +20,9 @@ const App = () => {
           withCredentials: true,
         });
         setUid(response.data);
+        if(uid) {
+          dispatch(getUser(uid));
+        }
       } catch (error) {
         if(error?.response?.status === 401) {
           navigate("/profil");
@@ -25,6 +31,7 @@ const App = () => {
         }
       }
     };
+    
 
     fetchToken();
   }, [uid]);

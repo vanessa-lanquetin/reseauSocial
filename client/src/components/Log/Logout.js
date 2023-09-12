@@ -3,10 +3,14 @@ import axios from "axios";
 import cookie from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import UidContext from "../UidContext";
+import { setUser } from "../../reducers/user.reducer";
+import { useDispatch } from "react-redux";
 
 const Logout = () => {
   const navigate = useNavigate();
-  const {uid, setUid} = useContext(UidContext)
+  const {setUid} = useContext(UidContext)
+  const dispatch = useDispatch()
+
   const removeCookie = (key) => {
     if (typeof window !== "undefined") {
       cookie.remove(key);
@@ -21,6 +25,7 @@ const Logout = () => {
       removeCookie("jwt");
       setUid(null)
       navigate("/profil");
+      dispatch(setUser(null))
     } catch (err) {
       console.error(err);
     }

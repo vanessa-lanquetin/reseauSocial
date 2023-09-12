@@ -2,9 +2,12 @@ import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { UidContext } from "../components/UidContext";
 import Logout from "../components/Log/Logout"
+import { useSelector } from "react-redux";
+import { selectUser } from "../reducers/user.reducer";
 
 const Navbar = () => {
   const uid = useContext(UidContext);
+  const profil = useSelector(selectUser)
   return (
     <nav>
       <div className="nav-container">
@@ -19,11 +22,16 @@ const Navbar = () => {
         {uid ? (
           <ul>
             <li></li>
-            <li className="welcome">
-              <NavLink to="/profil">
-                <h5>Valeur dynamique</h5>
-              </NavLink>
-            </li>
+            {
+              profil?.pseudo ? (
+                <li className="welcome">
+                  <NavLink to="/profil">
+                    <h5>Bienvenue {profil?.pseudo}</h5>
+                  </NavLink>
+                </li>
+              )
+              : <></>
+            }
             <Logout></Logout>
           </ul>
         ) : (
