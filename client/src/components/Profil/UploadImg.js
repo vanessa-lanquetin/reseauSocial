@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../reducers/user.reducer";
 import { uploadPicture } from "../../actions/user.actions";
@@ -13,8 +13,7 @@ const UploadImg = () => {
     const data = new FormData();
     data.append("name", profil.pseudo);
     data.append("userId", profil._id);
-    data.append("file", file);
-
+    if (file) data.append("file", file);
     dispatch(uploadPicture(data, profil._id));
   };
   return (

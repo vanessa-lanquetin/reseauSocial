@@ -1,12 +1,10 @@
 const UserModel = require("../models/user.model");
-const fs = require("fs");
 const { move, existsSync, mkdirp, remove } = require("fs-extra");
 const pathfs = require("path");
 const { promisify } = require("util");
 const { uploadErrors } = require("../utils/errors.utils");
-const { log } = require("console");
-const pipeline = promisify(require("stream").pipeline);
 const { v4 } = require("uuid");
+
 
 module.exports.uploadProfil = async (req, res) => {
   try {
@@ -41,7 +39,6 @@ module.exports.uploadProfil = async (req, res) => {
 
     // Move the new uploaded image to the target path
     await move(req.file.path, targetPath, { overwrite: true });
-
     const user = await UserModel.findById(req.jwt.id);
 
     if (user.picture) {

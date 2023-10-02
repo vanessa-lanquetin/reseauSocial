@@ -25,7 +25,6 @@ router.patch("/unfollow/:id", userController.unfollow);
 //upload
 router.post(
   "/upload",
-  requireAuth,
   upload.single("file"),
   uploadController.uploadProfil
 );

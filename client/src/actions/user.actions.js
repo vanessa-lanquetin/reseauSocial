@@ -1,7 +1,6 @@
 import axios from "axios";
 import { setUser } from "../reducers/user.reducer";
 
-
 export const getUser = (uid) => {
   return (dispatch) => {
     return axios
@@ -9,20 +8,35 @@ export const getUser = (uid) => {
       .then((res) => {
         dispatch(setUser(res.data));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.error(
+          "Erreur lors de la récupération des données de l'utilisateur :",
+          err
+        );
+      });
   };
 };
 
 export const uploadPicture = (data, id) => {
   return (dispatch) => {
-    return axios
+    axios
       .post(`${process.env.REACT_APP_API_URL}/api/user/upload`, data)
       .then((res) => {
-        return axios
+        axios
           .get(`${process.env.REACT_APP_API_URL}/api/user/${id}`)
           .then((res) => {
-            dispatch(setUser(res.data));
+            dispatch(uploadPicture(res.data));
+            console.log("Image téléchargée avec succès");
           })
+          .catch((err) => {
+            console.error(
+              "Erreur lors de la récupération des données mises à jour de l'utilisateur :",
+              err
+            );
+          });
       })
-  }
-}
+      .catch((err) => {
+        console.error("Erreur lors du téléchargement de l'image :", err);
+      });
+  };
+};

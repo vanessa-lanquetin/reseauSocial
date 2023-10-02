@@ -34,8 +34,8 @@ const App = () => {
     
 
     fetchToken();
-  }, [uid]);
-
+  }, [uid, dispatch,navigate]);
+  
   return (
       <UidContext.Provider value={{setUid, uid}}>
         <Routes />
