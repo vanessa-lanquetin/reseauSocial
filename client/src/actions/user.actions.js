@@ -20,12 +20,12 @@ export const getUser = (uid) => {
 export const uploadPicture = (data, id) => {
   return (dispatch) => {
     axios
-      .post(`${process.env.REACT_APP_API_URL}/api/user/upload`, data)
+      .post(`${process.env.REACT_APP_API_URL}/api/user/upload`, data, {withCredentials: true})
       .then((res) => {
         axios
           .get(`${process.env.REACT_APP_API_URL}/api/user/${id}`)
           .then((res) => {
-            dispatch(uploadPicture(res.data));
+            dispatch(setUser(res.data));
             console.log("Image téléchargée avec succès");
           })
           .catch((err) => {

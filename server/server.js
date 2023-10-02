@@ -35,6 +35,7 @@ app.get("/jwtid", requireAuth, (req, res) => {
 // Routes
 app.use("/api/user", userRoutes);
 app.use("/api/post", postRoutes);
+app.use("/pictures/profil", express.static('./uploads/profil'));
 
 // Serveur
 const PORT = process.env.PORT;

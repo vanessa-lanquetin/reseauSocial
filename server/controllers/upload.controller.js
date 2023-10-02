@@ -1,7 +1,6 @@
 const UserModel = require("../models/user.model");
 const { move, existsSync, mkdirp, remove } = require("fs-extra");
 const pathfs = require("path");
-const { promisify } = require("util");
 const { uploadErrors } = require("../utils/errors.utils");
 const { v4 } = require("uuid");
 
@@ -27,9 +26,6 @@ module.exports.uploadProfil = async (req, res) => {
     const uploadPath = pathfs.resolve(
       __dirname,
       "..",
-      "..",
-      "client",
-      "public",
       "uploads",
       "profil"
     );

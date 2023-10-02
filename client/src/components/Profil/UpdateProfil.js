@@ -13,7 +13,7 @@ const UpdateProfil = () => {
       <div className="update-container">
         <div className="left-part">
           <h3>Photo de profil</h3>
-          <img src={profil?.picture} alt="user-pic"></img>
+          <img src={`${process.env.REACT_APP_API_URL}/pictures/profil/${profil?.picture}`} alt="user-pic"></img>
           <UploadImg></UploadImg>
         </div>
       </div>
