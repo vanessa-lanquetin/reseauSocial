@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import LeftNav from "../LeftNav";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../reducers/user.reducer";
 import UploadImg from "./UploadImg";
 
 const UpdateProfil = () => {
+  const [bio, setBio] = useState("");
+  const [updateForm, setUpdateForm] = useState(false);
   const profil = useSelector(selectUser);
+
+  const handleUpdate = () => {
+    
+  }
   return (
     <div className="profil-container">
       <LeftNav></LeftNav>
@@ -13,8 +19,34 @@ const UpdateProfil = () => {
       <div className="update-container">
         <div className="left-part">
           <h3>Photo de profil</h3>
-          <img src={`${process.env.REACT_APP_API_URL}/pictures/profil/${profil?.picture}`} alt="user-pic"></img>
+          <img
+            src={`${process.env.REACT_APP_API_URL}/pictures/profil/${profil?.picture}`}
+            alt="user-pic"
+          ></img>
           <UploadImg></UploadImg>
+        </div>
+        <div className="right-part">
+          <div className="bio-update">
+            <h3>Bio</h3>
+            {updateForm === false && (
+              <>
+                <p onClick={() => setUpdateForm(!updateForm)}>{profil?.bio}</p>
+                <button onClick={() => setUpdateForm(!updateForm)}>
+                  Modifier bio
+                </button>
+              </>
+            )}
+            {updateForm && (
+              <>
+                <textarea
+                  type="text"
+                  defaultValue={profil?.bio}
+                  onChange={(e) => setBio(e.target.value)}
+                ></textarea>
+                <button onClick={handleUpdate}> Valider modification</button>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
