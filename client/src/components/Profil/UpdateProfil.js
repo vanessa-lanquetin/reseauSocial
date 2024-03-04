@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 import LeftNav from "../LeftNav";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../reducers/user.reducer";
+import { useDispatch, useSelector } from "react-redux";
+import { updateBio } from "../../actions/user.actions";
+import { selectUser} from "../../reducers/user.reducer";
 import UploadImg from "./UploadImg";
 
 const UpdateProfil = () => {
   const [bio, setBio] = useState("");
   const [updateForm, setUpdateForm] = useState(false);
   const profil = useSelector(selectUser);
+  const dispatch = useDispatch()
 
   const handleUpdate = () => {
-    
-  }
+    if (bio !== profil?.bio) {
+      // Vérifie si la bio a changé
+      dispatch(updateBio(profil?._id, bio));
+    }
+    setUpdateForm(false);
+  };
   return (
     <div className="profil-container">
       <LeftNav></LeftNav>
@@ -39,7 +45,8 @@ const UpdateProfil = () => {
             {updateForm && (
               <>
                 <textarea
-                  type="text"
+                  /* type="text" */
+                  name="bio"
                   defaultValue={profil?.bio}
                   onChange={(e) => setBio(e.target.value)}
                 ></textarea>
