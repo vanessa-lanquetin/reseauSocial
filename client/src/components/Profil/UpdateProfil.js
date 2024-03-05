@@ -3,6 +3,7 @@ import LeftNav from "../LeftNav";
 import { useDispatch, useSelector } from "react-redux";
 import { updateBio } from "../../actions/user.actions";
 import { selectUser} from "../../reducers/user.reducer";
+import { dateParser } from "../Utils";
 import UploadImg from "./UploadImg";
 
 const UpdateProfil = () => {
@@ -54,6 +55,7 @@ const UpdateProfil = () => {
               </>
             )}
           </div>
+          <h4>Membre depuis le : {dateParser(profil?.createdAt)}</h4>
         </div>
       </div>
     </div>
